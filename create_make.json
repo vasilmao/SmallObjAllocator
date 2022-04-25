@@ -1,0 +1,15 @@
+{
+    "targets" : [
+        "src/examples/example1.cpp"
+    ],
+
+    "prohibited_dirs" : [
+        ".git",
+        ".vscode"
+    ],
+
+    "flags" : {
+        "IFLAGS" : "ALL",
+        "CFLAGS" : ["-Wall -Werror"]
+    }
+}
