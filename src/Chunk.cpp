@@ -1,10 +1,24 @@
 #include "FixedAllocator.hpp"
 #include "cassert"
+#include <utility>
 
 FixedAllocator::ChunkBase::ChunkBase(void* memory) : memory_{static_cast<unsigned char*>(memory)} {}
 
 FixedAllocator::ChunkBase::~ChunkBase() {
     delete memory_;
+}
+
+FixedAllocator::ChunkBase::ChunkBase(FixedAllocator::ChunkBase&& other) {
+    Swap(other);
+}
+
+FixedAllocator::ChunkBase& FixedAllocator::ChunkBase::operator=(FixedAllocator::ChunkBase&& other) {
+    Swap(other);
+    return *this;
+}
+
+void FixedAllocator::ChunkBase::Swap(ChunkBase& other) {
+    std::swap(memory_, other.memory_);
 }
 
 FixedAllocator::Chunk::Chunk(size_t block_size, unsigned char blocks) : ChunkBase{new unsigned char[block_size * blocks]}, blocks_available_(blocks) {
@@ -15,13 +29,6 @@ FixedAllocator::Chunk::Chunk(size_t block_size, unsigned char blocks) : ChunkBas
         *p = ++i; // free blocks have link to the next free block
         // last one points to the block that doesnt exists
     }
-}
-
-FixedAllocator::Chunk::Chunk(FixedAllocator::Chunk&& other) : ChunkBase{other.memory_} {
-    other.memory_ = nullptr;
-
-    first_available_block_ = other.first_available_block_;
-    blocks_available_ = other.blocks_available_;
 }
 
 void* FixedAllocator::Chunk::Allocate(size_t block_size) {
