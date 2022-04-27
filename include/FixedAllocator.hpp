@@ -39,5 +39,4 @@ class FixedAllocator {
     Vector<Chunk> chunks_;
     size_t alloc_chunk_index_ = -1;
     size_t dealloc_chunk_index_ = -1;
-    static const unsigned char chunk_size = 255;
 };

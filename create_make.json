@@ -1,6 +1,7 @@
 {
     "targets" : [
-        "src/examples/example1.cpp"
+        "src/examples/example1.cpp",
+        "src/examples/example2.cpp"
     ],
 
     "prohibited_dirs" : [

@@ -25,6 +25,7 @@ void* FixedAllocator::Chunk::Allocate(size_t block_size) {
     unsigned char* result = memory_ + (first_available_block_ * block_size);
     first_available_block_ = *result; // contains index of next free block
     --blocks_available_;
+    return result;
 }
 
 void FixedAllocator::Chunk::Deallocate(void* ptr, size_t block_size) {
