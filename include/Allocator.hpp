@@ -1,3 +1,5 @@
+#pragma once
+
 #include "FixedAllocator.hpp"
 
 template<typename T>
@@ -8,6 +10,7 @@ class Allocator {
   private:
     static FixedAllocator fixed_allocator_;
 };
+
 
 template<typename T>
 FixedAllocator Allocator<T>::fixed_allocator_{sizeof(T)};

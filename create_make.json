@@ -12,6 +12,7 @@
 
     "flags" : {
         "IFLAGS" : "ALL",
-        "CFLAGS" : ["-Wall -Werror"]
+        "CFLAGS" : ["-Wall -Werror",
+            "-std=c++17"]
     }
 }

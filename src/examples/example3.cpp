@@ -1,5 +1,6 @@
-#include "Allocator.hpp"
 #include <iostream>
+
+#include "Allocator.hpp"
 
 struct Node {
     int a = 3;

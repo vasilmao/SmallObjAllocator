@@ -1,5 +1,8 @@
-#include "FixedAllocator.hpp"
+#pragma once
+
 #include <cassert>
+
+#include "FixedAllocator.hpp"
 
 const unsigned char kChunkSize = 255;
 

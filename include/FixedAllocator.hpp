@@ -1,4 +1,7 @@
+#pragma once
+
 #include <cstdlib>
+
 #include "Vector.hpp"
 
 class FixedAllocator {
@@ -22,6 +25,7 @@ class FixedAllocator {
       private:
         void Swap(ChunkBase& other);
     };
+
     class Chunk : private ChunkBase {
       public:
         Chunk(size_t block_size, unsigned char blocks);
@@ -38,7 +42,7 @@ class FixedAllocator {
     };
   
   private:
-    size_t block_size_;
+    size_t block_size_ = -1;
     Vector<Chunk> chunks_;
     size_t alloc_chunk_index_ = -1;
     size_t dealloc_chunk_index_ = -1;

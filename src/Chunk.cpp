@@ -1,6 +1,7 @@
-#include "FixedAllocator.hpp"
-#include "cassert"
+#include <cassert>
 #include <utility>
+
+#include "FixedAllocator.hpp"
 
 FixedAllocator::ChunkBase::ChunkBase(void* memory) : memory_{static_cast<unsigned char*>(memory)} {}
 
