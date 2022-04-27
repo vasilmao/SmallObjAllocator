@@ -1,9 +1,14 @@
 #include "FixedAllocator.hpp"
 #include "cassert"
 
-FixedAllocator::Chunk::Chunk(size_t block_size, unsigned char blocks) : blocks_available_(blocks) {
+FixedAllocator::ChunkBase::ChunkBase(void* memory) : memory_{static_cast<unsigned char*>(memory)} {}
+
+FixedAllocator::ChunkBase::~ChunkBase() {
+    delete memory_;
+}
+
+FixedAllocator::Chunk::Chunk(size_t block_size, unsigned char blocks) : ChunkBase{new unsigned char[block_size * blocks]}, blocks_available_(blocks) {
     // memory = new unsigned char[block_size * blocks];
-    memory_ = static_cast<unsigned char*>(malloc(block_size * blocks));
     first_available_block_ = 0;
     unsigned char* p = memory_;
     for (unsigned char i = 0; i != blocks; p += block_size) {
@@ -12,8 +17,7 @@ FixedAllocator::Chunk::Chunk(size_t block_size, unsigned char blocks) : blocks_a
     }
 }
 
-FixedAllocator::Chunk::Chunk(FixedAllocator::Chunk&& other) {
-    memory_ = other.memory_;
+FixedAllocator::Chunk::Chunk(FixedAllocator::Chunk&& other) : ChunkBase{other.memory_} {
     other.memory_ = nullptr;
 
     first_available_block_ = other.first_available_block_;
@@ -43,11 +47,4 @@ bool FixedAllocator::Chunk::HasFreeStorage() {
 
 bool FixedAllocator::Chunk::ContainsMemory(void* ptr, size_t block_size, unsigned char blocks) {
     return (memory_ <= ptr) && (ptr <= memory_ + (block_size * blocks));
-}
-
-FixedAllocator::Chunk::~Chunk() {
-    if (memory_ != nullptr) {
-        // delete[] memory_;
-        free(memory_);
-    }
 }
