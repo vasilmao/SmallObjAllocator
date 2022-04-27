@@ -8,7 +8,7 @@ FixedAllocator::FixedAllocator(size_t block_size) : block_size_(block_size) {
 }
 
 void* FixedAllocator::Allocate() {
-    if (alloc_chunk_index_ == (size_t)-1 || chunks_[alloc_chunk_index_].HasFreeStorage()) {
+    if (alloc_chunk_index_ == (size_t)-1 || !chunks_[alloc_chunk_index_].HasFreeStorage()) {
         // not enough memory in allock_chunk, lets try to find new
         size_t i = 0;
         for (; i < chunks_.size(); ++i) {

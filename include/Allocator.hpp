@@ -3,19 +3,18 @@
 template<typename T>
 class Allocator {
   public:
-    Allocator();
-    T* Allocate();
-    void Deallocate(T* ptr);
+    static T* Allocate();
+    static void Deallocate(T* ptr);
   private:
     static FixedAllocator fixed_allocator_;
 };
 
 template<typename T>
-Allocator<T>::Allocator() : fixed_allocator_{siezof(T)} {}
+FixedAllocator Allocator<T>::fixed_allocator_{sizeof(T)};
 
 template<typename T>
 T* Allocator<T>::Allocate() {
-    return fixed_allocator_.Allocate();
+    return static_cast<T*>(fixed_allocator_.Allocate());
 }
 
 template<typename T>
