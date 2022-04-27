@@ -23,10 +23,7 @@ class FixedAllocator {
         Chunk(const Chunk& other) = delete;
 
         Chunk(Chunk&& other);
-        void* Allocate(size_t block_size); // yeah, this block size is equal to block_size in constructor.
-        // Why? imagine: you have vector of chunks of same size, every contains same block size
-        // vs
-        // FixedAllocator contains one block size for all chunks (255 size_ts vs one size_t)
+        void* Allocate(size_t block_size);
         void Deallocate(void* ptr, size_t block_size);
 
         bool HasFreeStorage();
